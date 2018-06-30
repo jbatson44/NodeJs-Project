@@ -1,0 +1,26 @@
+CREATE TABLE users (
+	userId serial PRIMARY KEY,
+	username varchar(80), 
+	password varchar(80), 
+	firstName varchar(80),
+	lastName varchar(80),
+	email varchar(80),
+	state varchar(80), 
+	city varchar(80), 
+	gender varchar(80)
+);
+CREATE TABLE friendList (
+	listId serial PRIMARY KEY,
+	userId int REFERENCES users
+);
+CREATE TABLE friend (
+	friendId serial PRIMARY KEY,
+	listId int REFERENCES friendList,
+	userId int REFERENCES users
+);
+
+INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ('DNC44', 'dnc', 'Jake', 'Batson', 'dnc9544@gmail.com', 'San Diego', 'CA', 'Male');
+
+CREATE USER chatuser WITH PASSWORD 'chatuser';
+GRANT SELECT, INSERT, UPDATE ON friendList TO chatuser;
+GRANT USAGE, SELECT ON SEQUENCE friend_listid_seq TO chatuser;
