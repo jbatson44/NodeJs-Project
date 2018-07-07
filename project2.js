@@ -58,6 +58,7 @@ function getUser(request, response) {
 	console.log("user", username);
 	//pool.query('SELECT * FROM users', (err, res) => {
 	console.log("Logging in!")
+	getFriends(username);
 	getUserFromDb(username, function(error, result) {
 		console.log("We're back! ", result[0]);
 		
@@ -91,6 +92,23 @@ function getUserFromDb(username, callback) {
 		
 	});
 }
+function getFriends(username) {
+	var sql = "SELECT userid FROM users WHERE username = $1";
+	var params = [username];
+	pool.query(sql, params, function(err, result) {
+		if(err) {
+			console.log("ERROR: ");
+			console.log(err);
+			callback(err, null);
+		}
+		
+		console.log("Found result: " + JSON.stringify(result.rows));
+		
+		callback(null, result.rows);
+		
+	});
+}
+
 function makeUser(request, response) {
 	var username = request.query.username;
 	var password = request.query.password;
