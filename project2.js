@@ -92,9 +92,9 @@ function getUserFromDb(username, callback) {
 		
 	});
 }
-function getFriends(username) {
-	var sql = "SELECT userid FROM users WHERE username = $1";
-	var params = [username];
+function getFriends(userId) {
+	var sql = "SELECT friendId FROM friend WHERE userId = $1";
+	var params = [userId];
 	pool.query(sql, params, function(err, result) {
 		if(err) {
 			console.log("ERROR: ");
