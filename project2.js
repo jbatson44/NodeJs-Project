@@ -104,8 +104,6 @@ function getFriends(username) {
 		
 		console.log("Found result: " + JSON.stringify(result.rows));
 		
-		callback(null, result.rows);
-		
 	});
 }
 
