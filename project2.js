@@ -99,7 +99,7 @@ function getFriends(userId) {
 		if(err) {
 			console.log("ERROR: ");
 			console.log(err);
-			callback(err, null);
+			return 0;
 		}
 		
 		console.log("Found result: " + JSON.stringify(result.rows));
