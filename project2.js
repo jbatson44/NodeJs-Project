@@ -21,6 +21,10 @@ app.get('/getUser', function(request, response) {
 app.get('/makeUser', function(request, response) {
 	makeUser(request, response);
 });
+app.get('/sendMessage', function(request, response) {
+	sendMessage(request, response);
+	//getUser(request, response);
+});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
@@ -102,4 +106,19 @@ function makeUser(request, response) {
 		console.log("Insert successful");
 	});
 }
+
+function sendMessage(request, response) {
+	var message = request.query.message;
+	console.log("Sending message: " + message);
+	var messages = request.query.messages;
+	console.log("messages: " + messages);
+	//var message = request.query.messages;
+	//var ul = document.getElementById("messages");
+	//var li = document.createElement("li");
+	//var ul = request.query.messages;
+	//var li = request.query.li;
+	//li.appendChild(document.createTextNode(message));
+	//ul.appendChild(li);
+}
+
 

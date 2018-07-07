@@ -24,3 +24,16 @@ INSERT INTO users(username, password, firstName, lastName, email, state, city, g
 CREATE USER chatuser WITH PASSWORD 'chatuser';
 GRANT SELECT, INSERT, UPDATE ON friendList TO chatuser;
 GRANT USAGE, SELECT ON SEQUENCE friend_listid_seq TO chatuser;
+
+CREATE TABLE conversation (
+	convoId serial PRIMARY KEY,
+	userId int REFERENCES users,
+	friendId int REFERENCES friend
+);
+
+CREATE TABLE messages (
+	messageId serial PRIMARY KEY,
+	userId int REFERENCES users,
+	convoId int REFERENCES conversation,
+	message text
+);

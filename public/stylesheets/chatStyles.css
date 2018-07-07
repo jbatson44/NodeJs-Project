@@ -1,0 +1,23 @@
+body {
+	padding: 20px
+}
+
+#messages {
+	width:90%;
+}
+
+.sidebar {
+	width:20%;
+	float:left;
+}
+.messageboard {
+	float:right;
+	width:75%;
+}
+.messagebar {
+	width:75%;
+	clear:both;
+	bottom:0;
+	position: fixed;
+	padding-bottom: 20px;
+}
