@@ -61,9 +61,9 @@ function getUser(request, response) {
 	
 	getUserFromDb(username, function(error, result) {
 		console.log("We're back! ", result[0]);
-		
+		var f = getFriends(userid);
 		var userid = result[0].userid;
-		var friends = getFriends(userid);
+		var friends = f[0].friendId;
 		var firstName = result[0].firstname;
 		var lastName = result[0].lastname;
 		var email = result[0].email;
