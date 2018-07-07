@@ -14,13 +14,13 @@ CREATE TABLE friendList (
 	userId int REFERENCES users
 );
 CREATE TABLE friend (
-	friendId serial PRIMARY KEY,
-	listId int REFERENCES friendList,
+	friendId int REFERENCES users,
 	userId int REFERENCES users
 );
 
-INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ('DNC44', 'dnc', 'Jake', 'Batson', 'dnc9544@gmail.com', 'San Diego', 'CA', 'Male');
-
+INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ('DNC44', 'dnc', 'Jake', 'Batson', 'dnc9544@gmail.com', 'CA', 'San Diego', 'Male');
+INSERT INTO friendList(userId) VALUES (1);
+INSERT INTO friend(friendId, userId) VALUES (5, 4);
 CREATE USER chatuser WITH PASSWORD 'chatuser';
 GRANT SELECT, INSERT, UPDATE ON friendList TO chatuser;
 GRANT USAGE, SELECT ON SEQUENCE friend_listid_seq TO chatuser;
