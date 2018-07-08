@@ -20,7 +20,7 @@ CREATE TABLE friend (
 
 INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ('DNC44', 'dnc', 'Jake', 'Batson', 'fake@gmail.com', 'CA', 'San Diego', 'Male');
 //INSERT INTO friendList(userId) VALUES (1);
-INSERT INTO friend(friendId, userId) VALUES (5, 4);
+INSERT INTO friend(friendId, userId) VALUES (2, 3);
 CREATE USER chatuser WITH PASSWORD 'chatuser';
 GRANT SELECT, INSERT, UPDATE ON friendList TO chatuser;
 GRANT USAGE, SELECT ON SEQUENCE friend_listid_seq TO chatuser;

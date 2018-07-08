@@ -34,19 +34,34 @@ function verifyUser(request, response) {
 	var username = request.query.username;
 	var password = request.query.password;
 	var sql = "SELECT username, password FROM users";
+	var userExist = false;
+	var passCorrect = false;
 	pool.query(sql, function(err, results) {
 		console.log("verifying...", results.rows);
 		for (var i = 0; i < results.rows.length; i++) {
 			if (username == results.rows[i].username) {
+				userExist = true;
 				console.log("User exists");
 				if (password == results.rows[i].password) {
+					passCorrect = true;
 					console.log("password is correct");
+					//getUser(request, response);
 				} else {
 					console.log("password is incorrect");
+					var error = "ERROR: incorrect password";
+					var param = {error: error};
+					response.render('pages/error', param);
 				}
-			} else {
-				console.log("Username doesn't exist!");
+			
+				
 			}
+			
+		}
+		if (passCorrect == false) {
+			console.log("Username doesn't exist!");
+			var error = "ERROR: username doesn't exist";
+			var param = {error: error};
+			response.render('pages/error', param);
 		}
 	});
 }
@@ -60,17 +75,21 @@ function getUser(request, response) {
 	console.log("Logging in!")
 	
 	getUserFromDb(username, function(error, result) {
-		console.log("We're back! ", result[0]);
-		var f = getFriends(userid);
+		console.log("We're back! ", result[0]); 
+		
 		var userid = result[0].userid;
-		var friends = f[0].friendId;
+		//getFriends(userid, function(error, result) {
+		//	var friendIds[result.length];
+			//for (var i = 0; i < result.length; i++)
+			//friendIds[i] = result[i];
+		//}
 		var firstName = result[0].firstname;
 		var lastName = result[0].lastname;
 		var email = result[0].email;
 		var gender = result[0].gender;
 		var city = result[0].city;
 		var state = result[0].state;
-		var param = {userid: userid, username: username, firstName: firstName, lastName: lastName, email: email, gender: gender, city: city, state: state, friends: friends};
+		var param = {userid: userid, username: username, firstName: firstName, lastName: lastName, email: email, gender: gender, city: city, state: state};
 		response.render('pages/chat', param);
 	});
 	
@@ -93,23 +112,23 @@ function getUserFromDb(username, callback) {
 		
 	});
 }
-function getFriends(userId) {
+/*
+function getFriends(userId, callback) {
 	var sql = "SELECT friendId FROM friend WHERE userId = $1";
 	var params = [userId];
 	var result;
-	pool.query(sql, params, function(err, result) {
+	pool.query(sql, params, (err, result) => {
 		if(err) {
 			console.log("ERROR with friends: ");
 			console.log(err);
-			return 0;
+			callback(err, null);
 		}
 		
 		console.log("Found friendIds: " + JSON.stringify(result.rows));
-		result = result.rows;
+		callback(null, result.rows);
 	});
-	return result;
 }
-
+*/
 function makeUser(request, response) {
 	var username = request.query.username;
 	var password = request.query.password;
