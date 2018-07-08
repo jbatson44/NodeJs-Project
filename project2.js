@@ -20,6 +20,8 @@ app.get('/getUser', function(request, response) {
 });
 app.get('/makeUser', function(request, response) {
 	makeUser(request, response);
+		verifyUser(request, response);
+
 });
 app.get('/sendMessage', function(request, response) {
 	sendMessage(request, response);
@@ -50,7 +52,7 @@ function verifyUser(request, response) {
 					console.log("password is incorrect");
 					var error = "ERROR: incorrect password";
 					var param = {error: error};
-					response.render('pages/error', param);
+					return response.render('pages/error', param);
 				}
 			
 				
@@ -61,7 +63,7 @@ function verifyUser(request, response) {
 			console.log("Username doesn't exist!");
 			var error = "ERROR: username doesn't exist";
 			var param = {error: error};
-			response.render('pages/error', param);
+			return response.render('pages/error', param);
 		}
 	});
 }
@@ -90,7 +92,7 @@ function getUser(request, response) {
 		var city = result[0].city;
 		var state = result[0].state;
 		var param = {userid: userid, username: username, firstName: firstName, lastName: lastName, email: email, gender: gender, city: city, state: state};
-		response.render('pages/chat', param);
+		return response.render('pages/chat', param);
 	});
 	
 }
@@ -138,11 +140,14 @@ function makeUser(request, response) {
 	var state = request.query.state;
 	var city = request.query.city;
 	var gender = request.query.gender;
-	
-	var sql = "INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES $1, $2, $3, $4, $5, $6, $7, $8";
-	pool.query(sql, username, password, firstName, lastName, email, state, city, gender, function(err, results) {
+	console.log("attempting to insert: " + username);
+	var sql = "INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+	pool.query(sql, [username, password, firstName, lastName, email, state, city, gender]);
+		//if (err) {
+	//		console.log("ERROR: inserting" + err);
+	//	}
 		console.log("Insert successful");
-	});
+	//});
 }
 
 function sendMessage(request, response) {
