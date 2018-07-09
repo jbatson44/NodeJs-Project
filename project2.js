@@ -20,7 +20,7 @@ app.get('/getUser', function(request, response) {
 });
 app.get('/makeUser', function(request, response) {
 	makeUser(request, response);
-		verifyUser(request, response);
+	verifyUser(request, response);
 
 });
 app.get('/sendMessage', function(request, response) {
@@ -155,6 +155,10 @@ function sendMessage(request, response) {
 	console.log("Sending message: " + message);
 	var messages = request.query.messages;
 	console.log("messages: " + messages);
+	var user = 4;
+	var friend = 6;
+	var sql = "INSERT INTO messages(userId, userId2, message) VALUES ($1, $2, $3);";
+	pool.query(sql, [user, friend, message]);
 	//var message = request.query.messages;
 	//var ul = document.getElementById("messages");
 	//var li = document.createElement("li");
