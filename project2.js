@@ -72,7 +72,7 @@ function verifyUser(request, response) {
 function getUser(request, response) {
 	var requestUrl = url.parse(request.url, true);
 	var id = request.query.userid;
-	var username = request.query.username;
+	var username = request.body.username;
 	console.log("user", username);
 	//pool.query('SELECT * FROM users', (err, res) => {
 	console.log("Logging in!")
