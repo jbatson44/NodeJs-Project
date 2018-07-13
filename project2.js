@@ -7,6 +7,7 @@ const conString = process.env.DATABASE_URL || 'postgres://chatuser:chatuser@loca
 const pool = new Pool({connectionString: conString});
 app.set('port', (process.env.PORT || 5000));
 
+var bodyParser = require('body-parser')
 
 app.use(express.static(__dirname + '/public'));
 
@@ -14,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-app.get('/getUser', function(request, response) {
+app.post('/getUser', function(request, response) {
 	verifyUser(request, response);
 	getUser(request, response);
 });
@@ -33,8 +34,8 @@ app.listen(app.get('port'), function() {
 });
 
 function verifyUser(request, response) {
-	var username = request.query.username;
-	var password = request.query.password;
+	var username = request.body.username;
+	var password = request.body.password;
 	var sql = "SELECT username, password FROM users";
 	var userExist = false;
 	var passCorrect = false;
