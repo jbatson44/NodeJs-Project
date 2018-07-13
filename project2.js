@@ -8,6 +8,9 @@ const pool = new Pool({connectionString: conString});
 app.set('port', (process.env.PORT || 5000));
 
 var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use(express.static(__dirname + '/public'));
 
@@ -133,14 +136,14 @@ function getFriends(userId, callback) {
 }
 */
 function makeUser(request, response) {
-	var username = request.query.username;
-	var password = request.query.password;
-	var firstName = request.query.firstName;
-	var lastName = request.query.lastName;
-	var email = request.query.email;
-	var state = request.query.state;
-	var city = request.query.city;
-	var gender = request.query.gender;
+	var username = request.body.username;
+	var password = request.body.password;
+	var firstName = request.body.firstName;
+	var lastName = request.body.lastName;
+	var email = request.body.email;
+	var state = request.body.state;
+	var city = request.body.city;
+	var gender = request.body.gender;
 	console.log("attempting to insert: " + username);
 	var sql = "INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
 	pool.query(sql, [username, password, firstName, lastName, email, state, city, gender]);
@@ -152,9 +155,9 @@ function makeUser(request, response) {
 }
 
 function sendMessage(request, response) {
-	var message = request.query.message;
+	var message = request.body.message;
 	console.log("Sending message: " + message);
-	var messages = request.query.messages;
+	var messages = request.body.messages;
 	console.log("messages: " + messages);
 	var user = 4;
 	var friend = 6;
