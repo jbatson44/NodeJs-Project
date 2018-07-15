@@ -3,21 +3,25 @@
 	<head>
 		<title><%= username %></title>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/chatStyles.css" />
+		<script
+			src="https://code.jquery.com/jquery-3.2.1.min.js"
+			integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+			crossorigin="anonymous"></script>
+		<script src="ajax.js"></script>
 	</head>
 	<body>
-	<form action="/sendMessage" method="get">
 		<div class="friend">
 			<h3>Search for new friends</h3>
-			<input type="text" name="userSearch">
-			<input type="button" value="Search"><br><br>
+			<input type="text" name="search">
+			<button onclick="getFriends()">Search</button><br><br>
 			Your Friends
 			<ul></ul>
 		</div>
 		<div class="messageboard">
 			<ul name="messages"><li>chat</li></ul>
 			<div class="messagebar">
-				<input type="text" name="message"style="width:50%;">
-				<input type="submit" value="Send">
+				<input type="text" name="message"style="width:50%;" autocomplete="off">
+				<button>Send</button>
 			</div>
 		</div>
 		<div class="sidebar">
@@ -27,6 +31,5 @@
 			<p>city: <%= city %></p>
 			<p>state: <%= state %></p>
 		</div>
-		</form>
 	</body>
 </html>

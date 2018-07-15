@@ -1,12 +1,15 @@
 body {
-	padding-left: 20px;
-	padding-right: 20px;
+	border-top: solid black 5px;
+	
+	
+	background-color: Snow;
 }
 
 #messages {
 	width:90%;
 }
 #login {
+	background-color: Snow;
 	margin: auto;
 	width: 20%;
 	padding-left: 20px;
@@ -18,23 +21,38 @@ body {
 	width:20%;
 	float:right;
 	padding-left:20px;
+	background-color: teal;
+	border-left: solid black 5px;
+	padding-right: 20px;
+	position: absolute;
+	bottom: 0;
+	top:0;
+	right: 0;
 }
 .messageboard {
 	display: inline-block;
 	width:55%;
 	margin: 0 auto;
-	border-left: solid black 5px;
-	border-right: solid black 5px;
+	
+	
 	height: auto;
 	min-height: 100%;
 }
 .messagebar {
-	position: fixed;
+	position: absolute;
+	left: 23%;
 	bottom:0;
 	width:100%;
 	padding-bottom: 10px;
 }
 .friend {
+	padding-left: 20px;
 	float: left;
 	width:20%;
+	background-color: teal;
+	border-right: solid black 5px;
+	position: absolute;
+	bottom: 0;
+	top:0;
+	left: 0;
 }

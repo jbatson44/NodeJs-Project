@@ -5,12 +5,14 @@ var url = require('url');
 const { Pool } = require('pg')
 const conString = process.env.DATABASE_URL || 'postgres://chatuser:chatuser@localhost:5432/chatdata';
 const pool = new Pool({connectionString: conString});
+var session = require('express-session');
 app.set('port', (process.env.PORT || 5000));
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use( bodyParser.json() );  
 
 app.use(express.static(__dirname + '/public'));
 
@@ -31,6 +33,7 @@ app.get('/sendMessage', function(request, response) {
 	sendMessage(request, response);
 	//getUser(request, response);
 });
+app.post('/getAllUsers', getAllUsers);
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
@@ -51,6 +54,8 @@ function verifyUser(request, response) {
 				if (password == results.rows[i].password) {
 					passCorrect = true;
 					console.log("password is correct");
+					session.username = username;
+					session.password = password;
 					//getUser(request, response);
 				} else {
 					console.log("password is incorrect");
@@ -75,12 +80,12 @@ function verifyUser(request, response) {
 function getUser(request, response) {
 	var requestUrl = url.parse(request.url, true);
 	var id = request.query.userid;
-	var username = request.body.username;
-	console.log("user", username);
+	session.username = request.body.username;
+	console.log("user", session.username);
 	//pool.query('SELECT * FROM users', (err, res) => {
 	console.log("Logging in!")
 	
-	getUserFromDb(username, function(error, result) {
+	getUserFromDb(function(error, result) {
 		console.log("We're back! ", result[0]); 
 		
 		var userid = result[0].userid;
@@ -89,21 +94,21 @@ function getUser(request, response) {
 			//for (var i = 0; i < result.length; i++)
 			//friendIds[i] = result[i];
 		//}
-		var firstName = result[0].firstname;
-		var lastName = result[0].lastname;
-		var email = result[0].email;
-		var gender = result[0].gender;
-		var city = result[0].city;
-		var state = result[0].state;
-		var param = {userid: userid, username: username, firstName: firstName, lastName: lastName, email: email, gender: gender, city: city, state: state};
+		session.firstName = result[0].firstname;
+		session.lastName = result[0].lastname;
+		session.email = result[0].email;
+		session.gender = result[0].gender;
+		session.city = result[0].city;
+		session.state = result[0].state;
+		var param = {userid: session.userid, username: session.username, firstName: session.firstName, lastName: session.lastName, email: session.email, gender: session.gender, city: session.city, state: session.state};
 		return response.render('pages/chat', param);
 	});
 	
 }
-function getUserFromDb(username, callback) {
-	console.log("getUserFromDb called ", username);
+function getUserFromDb(callback) {
+	console.log("getUserFromDb called ", session.username);
 	var sql = "SELECT userid, firstName, lastName, email, gender, city, state FROM users WHERE username = $1";
-	var params = [username];
+	var params = [session.username];
 	
 	pool.query(sql, params, function(err, result) {
 		if(err) {
@@ -117,6 +122,26 @@ function getUserFromDb(username, callback) {
 		callback(null, result.rows);
 		
 	});
+}
+function getAllUsers(request, response) {
+	var result = {success: false};
+	var search = request.body.search;
+	if (search == null)
+		search = "DNC";
+	console.log("Search: " + search);
+	var sql = "SELECT userId, username FROM users WHERE username LIKE '%" + search + "%'";
+	//sql = "SELECT userId, username FROM users WHERE username = '" + search + "'";
+	if (search == "")
+		sql = "SELECT * FROM users;"// WHERE username = '" + search + "'";
+	pool.query(sql, function(err, result) {
+		if(err) {
+			console.log("ERROR: can't find friends ");
+			console.log(err);
+		} else {
+			console.log("Found friends: " + JSON.stringify(result.rows));
+		}
+	});
+	
 }
 /*
 function getFriends(userId, callback) {
@@ -136,15 +161,15 @@ function getFriends(userId, callback) {
 }
 */
 function makeUser(request, response) {
-	var username = request.body.username;
-	var password = request.body.password;
-	var firstName = request.body.firstName;
-	var lastName = request.body.lastName;
-	var email = request.body.email;
-	var state = request.body.state;
-	var city = request.body.city;
-	var gender = request.body.gender;
-	console.log("attempting to insert: " + username);
+	session.username = request.body.username;
+	session.password = request.body.password;
+	session.firstName = request.body.firstName;
+	session.lastName = request.body.lastName;
+	session.email = request.body.email;
+	session.state = request.body.state;
+	session.city = request.body.city;
+	session.gender = request.body.gender;
+	console.log("attempting to insert: " + session.username);
 	var sql = "INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
 	pool.query(sql, [username, password, firstName, lastName, email, state, city, gender]);
 		//if (err) {
@@ -153,7 +178,7 @@ function makeUser(request, response) {
 		console.log("Insert successful");
 	//});
 }
-
+/*
 function sendMessage(request, response) {
 	var message = request.body.message;
 	console.log("Sending message: " + message);
@@ -171,5 +196,5 @@ function sendMessage(request, response) {
 	//li.appendChild(document.createTextNode(message));
 	//ul.appendChild(li);
 }
-
+*/
 
