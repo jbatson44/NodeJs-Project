@@ -1,16 +1,12 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="projectStyle.css">
+		<link rel="stylesheet" href="/stylesheets/chatStyles.css">
 		<title>Create Account</title>
 	</head>
-	<body>
-		<div class="header">
-			<h1>Create An Account</h1>
-		</div>
-		<div class="middle">
+	<body style="background-color:teal">
 			<div id="login">
-				<form action="/makeUser" method="get">
-					<p style="text-align:center;font-size:20px;"><b>New User Information</b></p>
+				<form action="/makeUser" method="post">
+					<p><b>Create an Account</b></p>
 					First Name: 
 					<input type="text" name="firstName"><br><br>
 					Last Name: 
@@ -84,6 +80,5 @@
 					<a href="login.html" style="float:right">Existing user</a>
 				</form>
 			</div>
-		</div>
 	</body>
 </html>

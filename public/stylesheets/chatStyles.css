@@ -38,6 +38,11 @@ body {
 	height: auto;
 	min-height: 100%;
 }
+.middle {
+	display: inline-block;
+	width:55%;
+	margin: 0 auto;
+}
 .messagebar {
 	position: absolute;
 	left: 23%;

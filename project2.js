@@ -24,10 +24,10 @@ app.post('/getUser', function(request, response) {
 	verifyUser(request, response);
 	getUser(request, response);
 });
-app.get('/makeUser', function(request, response) {
+app.post('/makeUser', function(request, response) {
 	makeUser(request, response);
 	verifyUser(request, response);
-
+	getUser(request, response);
 });
 app.get('/sendMessage', function(request, response) {
 	sendMessage(request, response);
@@ -161,15 +161,15 @@ function getFriends(userId, callback) {
 }
 */
 function makeUser(request, response) {
-	session.username = request.body.username;
-	session.password = request.body.password;
-	session.firstName = request.body.firstName;
-	session.lastName = request.body.lastName;
-	session.email = request.body.email;
-	session.state = request.body.state;
-	session.city = request.body.city;
-	session.gender = request.body.gender;
-	console.log("attempting to insert: " + session.username);
+	var username = request.body.username;
+	var password = request.body.password;
+	var firstName = request.body.firstName;
+	var lastName = request.body.lastName;
+	var email = request.body.email;
+	var state = request.body.state;
+	var city = request.body.city;
+	var gender = request.body.gender;
+	console.log("attempting to insert: " + username);
 	var sql = "INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
 	pool.query(sql, [username, password, firstName, lastName, email, state, city, gender]);
 		//if (err) {
