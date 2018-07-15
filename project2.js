@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var url = require('url');
-//var pg = require('pg');
+
 const { Pool } = require('pg')
 const conString = process.env.DATABASE_URL || 'postgres://chatuser:chatuser@localhost:5432/chatdata';
 const pool = new Pool({connectionString: conString});
@@ -16,7 +16,6 @@ app.use( bodyParser.json() );
 
 app.use(express.static(__dirname + '/public'));
 
-// views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
@@ -24,15 +23,18 @@ app.post('/getUser', function(request, response) {
 	verifyUser(request, response);
 	getUser(request, response);
 });
+
 app.post('/makeUser', function(request, response) {
 	makeUser(request, response);
 	verifyUser(request, response);
 	getUser(request, response);
 });
+
 app.get('/sendMessage', function(request, response) {
 	sendMessage(request, response);
 	//getUser(request, response);
 });
+
 app.post('/getAllUsers', getAllUsers);
 
 app.listen(app.get('port'), function() {
@@ -82,18 +84,13 @@ function getUser(request, response) {
 	var id = request.query.userid;
 	session.username = request.body.username;
 	console.log("user", session.username);
-	//pool.query('SELECT * FROM users', (err, res) => {
+
 	console.log("Logging in!")
 	
 	getUserFromDb(function(error, result) {
 		console.log("We're back! ", result[0]); 
 		
-		var userid = result[0].userid;
-		//getFriends(userid, function(error, result) {
-		//	var friendIds[result.length];
-			//for (var i = 0; i < result.length; i++)
-			//friendIds[i] = result[i];
-		//}
+		session.userid = result[0].userid;
 		session.firstName = result[0].firstname;
 		session.lastName = result[0].lastname;
 		session.email = result[0].email;
@@ -143,23 +140,7 @@ function getAllUsers(request, response) {
 	});
 	
 }
-/*
-function getFriends(userId, callback) {
-	var sql = "SELECT friendId FROM friend WHERE userId = $1";
-	var params = [userId];
-	var result;
-	pool.query(sql, params, (err, result) => {
-		if(err) {
-			console.log("ERROR with friends: ");
-			console.log(err);
-			callback(err, null);
-		}
-		
-		console.log("Found friendIds: " + JSON.stringify(result.rows));
-		callback(null, result.rows);
-	});
-}
-*/
+
 function makeUser(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
@@ -178,23 +159,5 @@ function makeUser(request, response) {
 		console.log("Insert successful");
 	//});
 }
-/*
-function sendMessage(request, response) {
-	var message = request.body.message;
-	console.log("Sending message: " + message);
-	var messages = request.body.messages;
-	console.log("messages: " + messages);
-	var user = 4;
-	var friend = 6;
-	var sql = "INSERT INTO messages(userId, userId2, message) VALUES ($1, $2, $3);";
-	pool.query(sql, [user, friend, message]);
-	//var message = request.query.messages;
-	//var ul = document.getElementById("messages");
-	//var li = document.createElement("li");
-	//var ul = request.query.messages;
-	//var li = request.query.li;
-	//li.appendChild(document.createTextNode(message));
-	//ul.appendChild(li);
-}
-*/
+
 

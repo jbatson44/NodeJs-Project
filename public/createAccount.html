@@ -3,19 +3,19 @@
 		<link rel="stylesheet" href="/stylesheets/chatStyles.css">
 		<title>Create Account</title>
 	</head>
-	<body style="background-color:teal">
+	<body style="background-color:teal"><br>
 			<div id="login">
 				<form action="/makeUser" method="post">
-					<p><b>Create an Account</b></p>
+					<p style="text-align:center"><b>Create an Account</b></p>
 					First Name: 
-					<input type="text" name="firstName"><br><br>
+					<input type="text" name="firstName" autocomplete="off"><br><br>
 					Last Name: 
-					<input type="text" name="lastName"><br><br>
+					<input type="text" name="lastName" autocomplete="off"><br><br>
 					Gender:
 					<input type="radio" name="gender" value="Male" checked> Male
 					<input type="radio" name="gender" value="Female"> Female<br><br>
 					City:
-					<input type="text" name="city"><br><br>
+					<input type="text" name="city" autocomplete="off"><br><br>
 					State:
 					<select name="state">
 						<option value="AL">AL</option>
@@ -73,9 +73,9 @@
 					Email:
 					<input type="email" name="email"/><br><br>
 					Username: 
-					<input type="text" name="username"><br><br>
+					<input type="text" name="username" autocomplete="off"><br><br>
 					Password: 
-					<input type="text" name="password"><br><br>
+					<input type="text" name="password" autocomplete="off"><br><br>
 					<input type="submit" value="Create account">
 					<a href="login.html" style="float:right">Existing user</a>
 				</form>
