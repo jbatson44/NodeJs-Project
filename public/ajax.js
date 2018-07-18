@@ -1,15 +1,17 @@
 function getFriends() {
 	
 	var search = $("input[name=search]").val();
-	alert("getting some new friends like " + search);
+	//alert("getting some new friends like " + search);
 	var param = {search: search};
 	
-	$.post("/getAllUsers", param, function(result) {
-		if (result && result.success) {
-			$("#status").text("Possible new friends!");
-			alert("friend results ajax " + result);
-		} else {
-			$("#status").text("Error finding users!");
+	$.post("/getAllUsers", param, function(result) {	
+		//alert("size of array " + result.length);
+		var people = "<table>";
+		for (var i = 0; i < result.length; i++) {
+			newString = "<tr><td>" + result[i].username + "</td><td><input type='button' value='Add'></td></tr>";
+			people += newString;
 		}
+		people += "</table>";
+		$('#new').html(people);
 	});
 }

@@ -121,21 +121,23 @@ function getUserFromDb(callback) {
 	});
 }
 function getAllUsers(request, response) {
-	var result = {success: false};
+	//var result = {success: false};
 	var search = request.body.search;
 	if (search == null)
 		search = "DNC";
 	console.log("Search: " + search);
-	var sql = "SELECT userId, username FROM users WHERE username LIKE '%" + search + "%'";
+	//var sql = "SELECT userId, username FROM users WHERE username LIKE '%" + search + "%'";
 	//sql = "SELECT userId, username FROM users WHERE username = '" + search + "'";
-	if (search == "")
-		sql = "SELECT * FROM users;"// WHERE username = '" + search + "'";
+	var sql = "SELECT userId, username FROM users";
+	//if (search == "")
+	//	sql = "SELECT * FROM users;"// WHERE username = '" + search + "'";
 	pool.query(sql, function(err, result) {
 		if(err) {
 			console.log("ERROR: can't find friends ");
 			console.log(err);
 		} else {
 			console.log("Found friends: " + JSON.stringify(result.rows));
+			response.json(result.rows);
 		}
 	});
 	
