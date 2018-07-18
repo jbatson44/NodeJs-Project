@@ -9,10 +9,11 @@ var session = require('express-session');
 app.set('port', (process.env.PORT || 5000));
 
 var bodyParser = require('body-parser')
+app.use( bodyParser.json() ); 
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use( bodyParser.json() );  
+ 
 
 app.use(express.static(__dirname + '/public'));
 
@@ -30,14 +31,11 @@ app.post('/makeUser', function(request, response) {
 	getUser(request, response);
 });
 
-app.get('/sendMessage', function(request, response) {
-	sendMessage(request, response);
-	//getUser(request, response);
-});
-
 app.post('/getAllUsers', getAllUsers);
 
 app.post('/getMessages', getMessages);
+
+app.post('/sendMessage', sendMessage);
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
@@ -116,7 +114,7 @@ function getUserFromDb(callback) {
 			callback(err, null);
 		}
 		
-		console.log("Found result: " + JSON.stringify(result.rows));
+//		console.log("Found result: " + JSON.stringify(result.rows));
 		
 		callback(null, result.rows);
 		
@@ -125,12 +123,11 @@ function getUserFromDb(callback) {
 function getAllUsers(request, response) {
 	//var result = {success: false};
 	var search = request.body.search;
-	if (search == null)
-		search = "DNC";
+
 	console.log("Search: " + search);
-	//var sql = "SELECT userId, username FROM users WHERE username LIKE '%" + search + "%'";
+	var sql = "SELECT userId, username FROM users WHERE username LIKE '%" + search + "%'";
 	//sql = "SELECT userId, username FROM users WHERE username = '" + search + "'";
-	var sql = "SELECT userId, username FROM users";
+	//var sql = "SELECT userId, username FROM users";
 	//if (search == "")
 	//	sql = "SELECT * FROM users;"// WHERE username = '" + search + "'";
 	pool.query(sql, function(err, result) {
@@ -138,7 +135,7 @@ function getAllUsers(request, response) {
 			console.log("ERROR: can't find friends ");
 			console.log(err);
 		} else {
-			console.log("Found friends: " + JSON.stringify(result.rows));
+//			console.log("Found friends: " + JSON.stringify(result.rows));
 			response.json(result.rows);
 		}
 	});
@@ -146,6 +143,24 @@ function getAllUsers(request, response) {
 }
 function getMessages(request, response) {
 	console.log("getting all the messages");
+	var sql = "SELECT message, messageid FROM messages";
+	
+	pool.query(sql, function(err, result) {
+		if(err) {
+			console.log("ERROR: can't find any messages ");
+			console.log(err);
+		} else {
+//			console.log("Found messages: " + JSON.stringify(result.rows));
+			response.json(result.rows);
+		}
+	});
+}
+function sendMessage(request, response) {
+	var friendid = 2;
+	var message = request.body.message;
+	console.log("About to send that message " + message);
+	var sql = "INSERT INTO messages(userid, userId2, message) VALUES ($1, $2, $3);";
+	pool.query(sql, [session.userid, friendid, message]);
 }
 function makeUser(request, response) {
 	var username = request.body.username;
@@ -162,7 +177,7 @@ function makeUser(request, response) {
 		//if (err) {
 	//		console.log("ERROR: inserting" + err);
 	//	}
-		console.log("Insert successful");
+//		console.log("Insert successful");
 	//});
 }
 

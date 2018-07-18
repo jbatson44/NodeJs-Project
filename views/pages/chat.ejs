@@ -13,19 +13,18 @@
 		<div class="friend">
 			<h2>Search for new friends</h2>
 			<h3>Add a New Friend!</h3>
+			<input type="text" id="search" autocomplete="off">
 			<button onclick="getFriends()">Search</button><br><br>
-			<div id="new"></div><br>
-			<!--<input type="text" name="search" autocomplete="off">-->
-			
+			<div id="new">No Results</div><br>
 			<h2>Your Friends</h2>
 			<div id="friends">do you have any?</div>
 			
 		</div>
 		<div class="messageboard">
-			<ul name="messages"><li>chat</li></ul>
+			<div id="messages">No messages to display</div>
 			<div class="messagebar">
-				<input type="text" name="message"style="width:50%;" autocomplete="off">
-				<button>Send</button>
+				<input type="text" id="message"style="width:50%;" autocomplete="off">
+				<button onclick="sendMessage();">Send</button>
 			</div>
 		</div>
 		<div class="sidebar">

@@ -37,4 +37,4 @@ CREATE TABLE messages (
 	userId2 int REFERENCES users,
 	message text
 );
-INSERT INTO messages(userId, userId2, message) VALUES (4, 6, 'Hey dude!');
+INSERT INTO messages(userId, userId2, message) VALUES (2, 3, 'Hey dude!');

@@ -41,6 +41,13 @@ body {
 	width:55%;
 	margin: 0 auto;
 }
+#messages {
+	position:absolute;
+	left: 23%;
+	right:30%;
+	overflow: auto;
+	height: 90%;
+}
 .messagebar {
 	position: absolute;
 	left: 23%;
