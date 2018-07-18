@@ -15,3 +15,9 @@ function getFriends() {
 		$('#new').html(people);
 	});
 }
+function getMessages() {
+	alert("Time to get messages");
+	$.post("/getMessages", function(result) {
+		alert("messages " + JSON.stringify(result));
+	});
+}

@@ -37,6 +37,8 @@ app.get('/sendMessage', function(request, response) {
 
 app.post('/getAllUsers', getAllUsers);
 
+app.post('/getMessages', getMessages);
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
@@ -142,7 +144,9 @@ function getAllUsers(request, response) {
 	});
 	
 }
-
+function getMessages(request, response) {
+	console.log("getting all the messages");
+}
 function makeUser(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
