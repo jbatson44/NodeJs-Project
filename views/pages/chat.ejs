@@ -9,15 +9,15 @@
 			crossorigin="anonymous"></script>
 		<script src="ajax.js"></script>
 	</head>
-	<body onload="getMessages()">
+	<body onload="getMessages(); getFriends()">
 		<div class="friend">
 			<h2>Search for new friends</h2>
 			<h3>Add a New Friend!</h3>
 			<input type="text" id="search" autocomplete="off">
-			<button onclick="getFriends()">Search</button><br><br>
-			<div id="new">No Results</div><br>
+			<button onclick="getNewFriends()">Search</button><br><br>
+			<div id="new"></div><br>
 			<h2>Your Friends</h2>
-			<div id="friends">do you have any?</div>
+			<div id="friends"></div>
 			
 		</div>
 		<div class="messageboard">

@@ -38,3 +38,10 @@ CREATE TABLE messages (
 	message text
 );
 INSERT INTO messages(userId, userId2, message) VALUES (2, 3, 'Hey dude!');
+
+
+INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ('user1', 'user1', 'user1', 'user1', 'fake@gmail.com', 'CA', 'San Diego', 'Male');
+INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ('user2', 'user2', 'user2', 'user2', 'fake@gmail.com', 'CA', 'San Diego', 'Male');
+INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ('user3', 'user3', 'user3', 'user3', 'fake@gmail.com', 'CA', 'San Diego', 'Male');
+INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ('user4', 'user4', 'user4', 'user4', 'fake@gmail.com', 'CA', 'San Diego', 'Male');
+INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ('user5', 'user5', 'user5', 'user5', 'fake@gmail.com', 'CA', 'San Diego', 'Male');

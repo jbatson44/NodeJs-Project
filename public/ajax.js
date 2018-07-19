@@ -1,4 +1,4 @@
-function getFriends() {
+function getNewFriends() {
 	
 	var search = $("#search").val();
 	//alert("getting some new friends like " + search);
@@ -10,7 +10,7 @@ function getFriends() {
 		//alert("size of array " + result.length);
 		var people = "<table>";
 		for (var i = 0; i < result.length; i++) {
-			newString = "<tr><td>" + result[i].username + "</td><td><input type='button' value='Add'></td></tr>";
+			newString = "<tr><td>" + result[i].username + "</td><td><input type='button' value='Add' onclick='addFriend()'></td></tr>";
 			people += newString;
 		}
 		people += "</table>";
@@ -40,4 +40,18 @@ function sendMessage() {
 
 	});
 	getMessages();
+}
+function addFriend() {
+	console.log("Adding your new friend!");
+}
+function getFriends() { 
+	$.post("/getFriends", function(result) {
+		var fl = "";
+		for (var i = 0; i < result.length; i++) {
+			newString = "<p>" + result[i].username + "</p>";
+			fl += newString;
+		}
+		//fl += "</ul>";
+		$('#friends').html(fl);
+	});
 }

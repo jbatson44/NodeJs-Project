@@ -37,6 +37,8 @@ app.post('/getMessages', getMessages);
 
 app.post('/sendMessage', sendMessage);
 
+app.post('/getFriends', getFriends);
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
@@ -181,4 +183,33 @@ function makeUser(request, response) {
 	//});
 }
 
-
+function getFriends(request, response) {
+	console.log("getting friends of " + session.firstName);
+	var sql = "SELECT friendid FROM friend WHERE userid = $1";
+	
+	var params = [session.userid];
+	
+	pool.query(sql, params, function(err, result) {
+		if(err) {
+			console.log("ERROR: can't find friendids");
+			console.log(err);
+		} else {
+			console.log("here are the friend ids " + JSON.stringify(result.rows));
+			var sql = "SELECT username FROM users WHERE userid = ANY($1)";
+			var array = new Array();
+			for (var i = 0; i < result.rows.length; i++) {
+				array.push(result.rows[i].friendid);
+			}
+			//console.log(array);
+			var p = [array]
+			pool.query(sql, p, function(err, result) {
+				if(err) {
+					console.log("ERROR: can't find any friends");
+					console.log(err);
+				} else {
+					response.json(result.rows)
+				}
+			});
+		}
+	});
+}
