@@ -164,7 +164,7 @@ function getMessages(request, response) {
 	});
 }
 function sendMessage(request, response) {
-	var friendid = 2;
+	var friendid = session.friendId;
 	var message = request.body.message;
 	console.log("About to send that message " + message);
 	var sql = "INSERT INTO messages(userid, userId2, message) VALUES ($1, $2, $3);";
@@ -207,6 +207,7 @@ function getFriends(request, response) {
 				array.push(result.rows[i].friendid);
 			}
 			session.friendids = array;
+			session.friendId = result.rows[0].friendid;
 			//console.log("friendids " + session.friendids);
 			var p = [array]
 			pool.query(sql, p, function(err, result) {
