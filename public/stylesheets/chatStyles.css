@@ -41,6 +41,7 @@ body {
 #messages {
 	position:absolute;
 	left: 23%;
+	right: 23%;
 	overflow-y: auto;
 	height: 90%;
 }
