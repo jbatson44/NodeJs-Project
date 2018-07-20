@@ -151,9 +151,9 @@ function getAllUsers(request, response) {
 }
 function getMessages(request, response) {
 	console.log("getting all the messages");
-	var sql = "SELECT message, messageid FROM messages";
-	
-	pool.query(sql, function(err, result) {
+	var sql = "SELECT message, messageid FROM messages WHERE userId = $1";
+	var param = [session.userid]
+	pool.query(sql, param, function(err, result) {
 		if(err) {
 			console.log("ERROR: can't find any messages ");
 			console.log(err);
