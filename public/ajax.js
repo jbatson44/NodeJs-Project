@@ -60,7 +60,7 @@ function getFriends() {
 			newString = "<p>" + result[i].username + "</p>";
 			fl += newString;
 		}
-		fl += "<p><input type='button' value='Delete a Friend'></p>"
+		//fl += "<p><input type='button' value='Delete a Friend'></p>"
 		//fl += "</ul>";
 		$('#friends').html(fl);
 	});
