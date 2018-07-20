@@ -5,7 +5,6 @@ function getNewFriends() {
 	var param = {
 		search: search
 	};
-	
 	$.post("/getAllUsers", param, function(result) {	
 		//alert("size of array " + result.length);
 		var people = "<table>";
