@@ -13,8 +13,9 @@
 		<div class="friend">
 			<h2>Search for new friends</h2>
 			<h3>Add a New Friend!</h3>
-			<input type="text" id="search" autocomplete="off">
-			<button onclick="getNewFriends()">Search</button><br><br>
+			<input type="text" id="search" autocomplete="off" onkeydown="if (event.keyCode == 13)
+                        document.getElementById('searchbtn').click()">
+			<button id="searchbtn" onclick="getNewFriends()">Search</button><br><br>
 			<div id="new"></div><br>
 			<h2>Your Friends</h2>
 			<div id="friends"></div>
@@ -23,8 +24,9 @@
 		<div class="messageboard">
 			<div id="messages">No messages to display</div>
 			<div class="messagebar">
-				<input type="text" id="message"style="width:50%;" autocomplete="off">
-				<button onclick="sendMessage();">Send</button>
+				<input type="text" id="message"style="width:50%;" autocomplete="off" onkeydown="if (event.keyCode == 13)
+                        document.getElementById('sendbtn').click()">
+				<button id='sendbtn' onclick="sendMessage();">Send</button>
 			</div>
 		</div>
 		<div class="sidebar">

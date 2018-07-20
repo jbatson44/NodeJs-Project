@@ -3,9 +3,6 @@ body {
 	background-color: Snow;
 }
 
-#messages {
-	width:90%;
-}
 #login {
 	background-color: Snow;
 	margin: auto;
@@ -44,8 +41,7 @@ body {
 #messages {
 	position:absolute;
 	left: 23%;
-	right:30%;
-	overflow: auto;
+	overflow-y: auto;
 	height: 90%;
 }
 .messagebar {

@@ -39,6 +39,8 @@ app.post('/sendMessage', sendMessage);
 
 app.post('/getFriends', getFriends);
 
+app.post('/addFriend', addFriend);
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
@@ -127,12 +129,16 @@ function getAllUsers(request, response) {
 	var search = request.body.search;
 
 	console.log("Search: " + search);
-	var sql = "SELECT userId, username FROM users WHERE username LIKE '%" + search + "%'";
+	var sql = "SELECT userId, username FROM users WHERE username LIKE '%" + search + "%' AND NOT userid = ANY($1)";
 	//sql = "SELECT userId, username FROM users WHERE username = '" + search + "'";
 	//var sql = "SELECT userId, username FROM users";
 	//if (search == "")
 	//	sql = "SELECT * FROM users;"// WHERE username = '" + search + "'";
-	pool.query(sql, function(err, result) {
+	var array = session.friendids;
+	array.push(session.userid);
+	//console.log("search friendsids dsf " + array);
+	var p = [array]
+	pool.query(sql, p, function(err, result) {
 		if(err) {
 			console.log("ERROR: can't find friends ");
 			console.log(err);
@@ -200,7 +206,8 @@ function getFriends(request, response) {
 			for (var i = 0; i < result.rows.length; i++) {
 				array.push(result.rows[i].friendid);
 			}
-			//console.log(array);
+			session.friendids = array;
+			//console.log("friendids " + session.friendids);
 			var p = [array]
 			pool.query(sql, p, function(err, result) {
 				if(err) {
@@ -210,6 +217,24 @@ function getFriends(request, response) {
 					response.json(result.rows)
 				}
 			});
+		}
+	});
+}
+
+function addFriend(request, response) {
+	var username = request.body.username;
+	console.log("adding friend: " + username);
+	var sql = "SELECT userid FROM users WHERE username = $1";
+	var param = [username];
+	pool.query(sql, param, function(err, result) {
+		if(err) {
+			console.log("ERROR: can't find the new friends id!");
+			console.log(err);
+		} else {
+			console.log("Found the id: " + JSON.stringify(result.rows));
+			//response.json(result.rows);
+			var sql = "INSERT INTO friend(friendId, userId) VALUES ($1, $2)";
+			pool.query(sql, [result.rows[0].userid, session.userid]);
 		}
 	});
 }
