@@ -27,7 +27,7 @@ app.post('/getUser', function(request, response) {
 
 app.post('/makeUser', function(request, response) {
 	makeUser(request, response);
-	verifyUser(request, response);
+	//verifyUser(request, response);
 	getUser(request, response);
 });
 
