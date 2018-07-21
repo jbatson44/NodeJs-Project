@@ -182,7 +182,8 @@ function makeUser(request, response) {
 	console.log("attempting to insert: " + username);
 	var sql = "INSERT INTO users(username, password, firstName, lastName, email, state, city, gender) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
 	pool.query(sql, [username, password, firstName, lastName, email, state, city, gender]);
-		//if (err) {
+	location.href = '/public/login.html';
+	//if (err) {
 	//		console.log("ERROR: inserting" + err);
 	//	}
 //		console.log("Insert successful");
